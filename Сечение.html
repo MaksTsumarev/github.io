@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расчет формулы</title>
+    <script>
+        function calculate() {
+            // Получаем значения из полей ввода
+            var N = parseFloat(document.getElementById("inputN").value);
+            var D = parseFloat(document.getElementById("inputD").value);
+
+            // Проверяем, что значения корректные
+            if (isNaN(D) || isNaN(N) || N === 0) {
+                alert("Пожалуйста, введите правильные значения!");
+                return;
+            }
+
+            // Расчет по формуле
+            var result = (Math.PI * Math.pow(D, 2) * N) / 4;
+
+            // Выводим результат
+            document.getElementById("result").innerText = "Результат: " + result.toFixed(4);
+        }
+    </script>
+</head>
+<body>
+    <h1>Расчет формулы</h1>
+
+    <label for="inputN">Введите количество жил N:</label>
+    <input type="number" id="inputN" required>
+    <br><br>
+
+    <label for="inputD">Введите диаметр D:</label>
+    <input type="number" id="inputD" required>
+    <br><br>
+
+    <button onclick="calculate()">Рассчитать</button>
+
+    <p id="result"></p>
+</body>
+</html>
