@@ -9,19 +9,42 @@
             // Получаем значения из полей ввода
             var N = parseFloat(document.getElementById("inputN").value);
             var D = parseFloat(document.getElementById("inputD").value);
+            var article = document.getElementById("inputArticle").value;
+            var lot = document.getElementById("inputLot").value;
 
             // Проверяем, что значения корректные
-            if (isNaN(D) || isNaN(N) || N === 0) {
-                alert("Пожалуйста, введите правильные значения!");
+            if (isNaN(D) || isNaN(N) || N === 0 || article === "" || lot === "") {
+                alert("Пожалуйста, введите правильные значения для всех полей!");
                 return;
             }
 
             // Расчет по формуле
             var result = (Math.PI * Math.pow(D, 2) * N) / 4;
 
+            // Сохраняем результаты в localStorage
+            localStorage.setItem("lastResult", result.toFixed(4));
+            localStorage.setItem("lastArticle", article);
+            localStorage.setItem("lastLot", lot);
+
             // Выводим результат
             document.getElementById("result").innerText = "Результат: " + result.toFixed(4);
+            document.getElementById("savedInfo").innerText = `Артикул: ${article}, LOT#: ${lot}`;
         }
+
+        // Функция для загрузки сохраненных данных при загрузке страницы
+        function loadSavedData() {
+            var savedResult = localStorage.getItem("lastResult");
+            var savedArticle = localStorage.getItem("lastArticle");
+            var savedLot = localStorage.getItem("lastLot");
+
+            if (savedResult !== null && savedArticle !== null && savedLot !== null) {
+                document.getElementById("result").innerText = "Последний расчет: " + savedResult;
+                document.getElementById("savedInfo").innerText = `Артикул: ${savedArticle}, LOT#: ${savedLot}`;
+            }
+        }
+
+        // Загружаем сохраненные данные при загрузке страницы
+        window.onload = loadSavedData;
     </script>
 </head>
 <body>
@@ -35,8 +58,17 @@
     <input type="number" id="inputD" required>
     <br><br>
 
+    <label for="inputArticle">Артикул:</label>
+    <input type="text" id="inputArticle" required>
+    <br><br>
+
+    <label for="inputLot">LOT#:</label>
+    <input type="text" id="inputLot" required>
+    <br><br>
+
     <button onclick="calculate()">Рассчитать</button>
 
     <p id="result"></p>
+    <p id="savedInfo"></p>
 </body>
 </html>
